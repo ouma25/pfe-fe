@@ -13,7 +13,7 @@
           <h4 class="card-title">{{ first_name }} {{ last_name }}</h4>
 
           <p class="card-description">{{ description }}</p>
-          <a href="#pablo" class="btn btn-info btn-round">Contact</a>
+          <router-link class="btn btn-info btn-round" :to="{ path: '/profile', params: { user_id: id } }">Contact</router-link>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  props: ['image', 'job', 'first_name', 'last_name', 'description']
+  props: ['image', 'job', 'first_name', 'last_name', 'description', 'id']
 }
 </script>
 

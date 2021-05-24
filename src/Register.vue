@@ -17,7 +17,7 @@
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h3 class="register-heading">Register as a client</h3>
             <div class="row register-form">
               <div class="col-md-6">
@@ -49,7 +49,7 @@
             </div>
           </div>
 
-          <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <h3  class="register-heading">Register as a professional</h3>
             <div class="row register-form">
               <div class="col-md-6">
@@ -193,11 +193,21 @@ export default {
     },
     activate_client(){
       document.getElementById("home").classList.add("active");
+      document.getElementById("home-tab").classList.add("active");
+      document.getElementById("home-tab").classList.add("active-tab");
+
       document.getElementById("profile").classList.remove("active");
+      document.getElementById("profile-tab").classList.remove("active");
+      document.getElementById("profile-tab").classList.remove("active-tab");
     },
     activate_professional(){
       document.getElementById("profile").classList.add("active");
+      document.getElementById("profile-tab").classList.add("active");
+      document.getElementById("profile-tab").classList.add("active-tab");
+
       document.getElementById("home").classList.remove("active");
+      document.getElementById("home-tab").classList.remove("active");
+      document.getElementById("home-tab").classList.remove("active-tab");
     }
   }
 }
@@ -308,5 +318,16 @@ export default {
   #home-tab
   {
     color: #0062cc !important;
+  }
+  .active-tab
+  {
+    background-color: white !important;
+    color: #0062cc !important;
+    padding: 5px;
+  }
+  .inactive-tab
+  {
+    background-color: #0062cc !important;
+    color: white !important;
   }
 </style>

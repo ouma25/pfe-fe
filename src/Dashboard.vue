@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-9">
           <div class="row">
-              <Card v-for="item in data" v-bind:first_name="item.first_name" v-bind:last_name="item.last_name" v-bind:job="item.job_title" ></Card>
+              <Card v-for="item in data" v-bind:first_name="item.first_name" v-bind:last_name="item.last_name" v-bind:job="item.job_title" v-bind:id="item.id" ></Card>
           </div>
         </div>
       </div>
