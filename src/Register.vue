@@ -10,14 +10,14 @@
       <div class="col-md-9 register-right">
         <ul class="nav nav-tabs mb-5 nav-justified" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link text-primary active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Client</a>
+            <a class="nav-link text-primary active" @click="activate_client" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Client</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Professional</a>
+            <a class="nav-link" id="profile-tab" @click="activate_professional" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Professional</a>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show" @click="activate_client" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="tab-pane fade show" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h3 class="register-heading">Register as a client</h3>
             <div class="row register-form">
               <div class="col-md-6">
@@ -108,15 +108,6 @@
             </div>
           </div>
 
-          <div class="container">
-            <div v-if="success" class="alert alert-success">
-              <b>Success!</b> thank you for joining us.
-            </div>
-            <div v-if="error" class="alert alert-danger">
-              <b>Error!</b> please try again later.
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -162,11 +153,11 @@ export default {
 
             if(response.data)
             {
-              this.success = true;
+              alert('Success! your account has been created successfuly!');
             }
             else
             {
-              this.error = false;
+              alert('Problem creating your account! please try again later');
             }
 
           });
@@ -201,7 +192,12 @@ export default {
         }
     },
     activate_client(){
-      $("#home").classList.add('active');
+      document.getElementById("home").classList.add("active");
+      document.getElementById("profile").classList.remove("active");
+    },
+    activate_professional(){
+      document.getElementById("profile").classList.add("active");
+      document.getElementById("home").classList.remove("active");
     }
   }
 }
