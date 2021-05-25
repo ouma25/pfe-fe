@@ -3,17 +3,14 @@
       <div class="card card-profile">
         <div class="card-avatar">
           <a href="#pablo">
-            <img class="img" src="../assets/faces/camp.jpg">
+            <img class="img" :src="image">
           </a>
         </div>
-
         <div class="card-content">
           <h6 class="category text-gray">{{ job }}</h6>
-
           <h4 class="card-title">{{ first_name }} {{ last_name }}</h4>
-
           <p class="card-description">{{ description }}</p>
-          <router-link class="btn btn-info btn-round" :to="{ path: '/profile', params: { user_id: id } }">Contact</router-link>
+          <router-link class="btn btn-info btn-round" :to="{ name: 'profile', params: { id: id } }">Contact</router-link>
         </div>
       </div>
     </div>

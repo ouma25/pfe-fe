@@ -7,8 +7,8 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="main-breadcrumb bg-white">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+            <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+            <li class="breadcrumb-item"><router-link to="/dashboard">list</router-link></li>
             <li class="breadcrumb-item active" aria-current="page">User Profile</li>
           </ol>
         </nav>
@@ -19,7 +19,7 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                  <img v-bind:src="image" alt="Admin" class="rounded-circle" width="150">
                   <div class="mt-3">
                     <h4>{{ first_name }} {{ last_name }}</h4>
                     <p class="text-secondary mb-1">{{ job_title }}</p>
@@ -122,14 +122,28 @@ export default {
       email: null,
       phone: null,
       city: null,
-      job_title: null
+      job_title: null,
+      image: null
     }
   },
   methods: {
     show_data()
     {
-      console.log(this.$route.query.user_id);
+      this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/details/' + this.$route.params.id)
+          .then(function(response){
+            this.id = response.data.id;
+            this.first_name = response.data.first_name;
+            this.last_name = response.data.last_name;
+            this.email = response.data.email;
+            this.phone = response.data.phone;
+            this.city = response.data.city;
+            this.job_title = response.data.job_title;
+            this.image = response.data.image;
+          });
     }
+  },
+  mounted() {
+    this.show_data();
   }
 }
 </script>

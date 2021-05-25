@@ -10,6 +10,6 @@ export default [
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/card', component: Card },
-  { path: '/dashboard', component: Dashboard },
-  { path: '/profile', component: Profile },
+  { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
+  { name: 'profile', path: '/profile:id', component: Profile },
 ]

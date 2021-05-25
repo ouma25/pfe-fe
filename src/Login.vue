@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <h3 class="mb-4 align-self-center text-center">Login</h3>
-    <h6 v-if="error" class="alert alert-danger"><b>Invalid credentials!</b> please try again later.</h6>
+    <p v-if="error" class="alert alert-danger">Invalid credentials!</p>
     <div class="form-group">
       <label for="email">E-mail</label>
       <input v-model:value="email" class="form-control" id="email" type="email" />
@@ -47,7 +47,7 @@
                 App.token = response.data;
                 this.$router.push('dashboard');
               }
-            });
+            }).catch(function(){ this.error = true });
         }
         else
         {
@@ -60,8 +60,6 @@
       {
         this.$router.push('dashboard');
       }
-
-      console.log(App.token);
     }
   }
 </script>

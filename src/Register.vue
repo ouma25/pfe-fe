@@ -1,121 +1,146 @@
 <template>
-  <div class="container-fluid register">
-    <div class="row">
-      <div class="col-md-3 register-left">
-        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-        <h3>Welcome</h3>
-        <p>You are 30 seconds away from finding the best professional suited for your business & ideas!</p>
-        <router-link class="btn btn-outline-primary btn-login text-white" to="/login">Login</router-link><br/>
-      </div>
-      <div class="col-md-9 register-right">
-        <ul class="nav nav-tabs mb-5 nav-justified" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link text-primary active" @click="activate_client" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Client</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="profile-tab" @click="activate_professional" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Professional</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <h3 class="register-heading">Register as a client</h3>
-            <div class="row register-form">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input v-model="firstName" type="text" class="form-control" placeholder="First Name" value="" />
+  <div>
+    <Header></Header>
+    <div id="main_container" class="container-fluid register">
+      <div class="row">
+        <div class="col-md-3 register-left">
+          <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+          <h3>Welcome</h3>
+          <p>You are 30 seconds away from finding the best professional suited for your business & ideas!</p>
+          <router-link class="btn btn-outline-primary btn-login text-white" to="/login">Login</router-link><br/>
+        </div>
+        <div class="col-md-9 register-right">
+          <ul class="nav nav-tabs mb-5 nav-justified" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link text-primary active" @click="activate_client" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Client</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" @click="activate_professional" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Professional</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <h3 class="register-heading">Register as a client</h3>
+              <div class="row register-form">
+                <div class="container" v-if="success">
+                  <div class="alert alert-success"><b>Success!</b> thanks for joining us.</div>
                 </div>
-                <div class="form-group">
-                  <input v-model="lastName" type="text" class="form-control" placeholder="Last Name" value="" />
+                <div class="container" v-if="error">
+                  <div class="alert alert-error"><b>Error!</b> please try again later.</div>
                 </div>
-                <div class="form-group">
-                  <input v-model="password" type="password" class="form-control" placeholder="Password" value="" />
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input v-model="firstName" type="text" class="form-control" placeholder="First Name" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="lastName" type="text" class="form-control" placeholder="Last Name" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="password" type="password" class="form-control" placeholder="Password" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="city" type="text" class="form-control" placeholder="City" value="" />
+                  </div>
                 </div>
-                <div class="form-group">
-                  <input v-model="city" type="text" class="form-control" placeholder="City" value="" />
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input v-model="email" type="email" class="form-control" placeholder="Your Email *" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="phone" type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Your Phone *" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="confirmation" type="password" class="form-control"  placeholder="Confirm Password" value="" />
+                  </div>
+                  <input type="button" @click="registerClient" class="btnRegister"  value="Register"/>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input v-model="email" type="email" class="form-control" placeholder="Your Email *" value="" />
-                </div>
-                <div class="form-group">
-                  <input v-model="phone" type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Your Phone *" value="" />
-                </div>
-                <div class="form-group">
-                  <input v-model="confirmation" type="password" class="form-control"  placeholder="Confirm Password" value="" />
-                </div>
-                <input type="button" @click="registerClient" class="btnRegister"  value="Register"/>
               </div>
             </div>
-          </div>
 
-          <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <h3  class="register-heading">Register as a professional</h3>
-            <div class="row register-form">
-              <div class="col-md-6">
-                <div class="form-group text-center">
-                  <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-                    <div class="fileinput-new thumbnail img-circle img-raised">
-                      <img src="./assets/img/placeholder.jpg" style="width: 100%; height:100%" alt="...">
-                    </div>
-                    <div class="fileinput-preview fileinput-exists thumbnail img-circle img-raised" style=""></div>
-                    <div>
+            <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <h3  class="register-heading">Register as a professional</h3>
+              <div class="row register-form">
+                <div class="container" v-if="success">
+                  <div class="alert alert-success"><b>Success!</b> thanks for joining us.</div>
+                </div>
+                <div class="container" v-if="error">
+                  <div class="alert alert-error"><b>Error!</b> please try again later.</div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group text-center">
+                    <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                      <div class="fileinput-new thumbnail img-circle img-raised">
+                        <img v-bind:src="image" style="width: 100%; height:100%" alt="...">
+                      </div>
+                      <div class="fileinput-preview fileinput-exists thumbnail img-circle img-raised" style=""></div>
+                      <div>
 									<span class="btn btn-raised btn-round btn-default btn-file">
 										<span class="fileinput-new">Add Photo</span>
 										<span class="fileinput-exists">Change</span>
-										<input type="hidden"><input type="file" name="..."><div class="ripple-container"></div></span>
-                      <br>
-                      <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+										<input type="hidden"><input type="file" ref="file-input" accept="image/*" @change="uploadImage($event)" ><div class="ripple-container"></div></span>
+                        <br>
+                        <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <input v-model="firstName" type="text" class="form-control" placeholder="First Name" value="" />
-                </div>
-                <div class="form-group">
-                  <input v-model="lastName" type="text" class="form-control" placeholder="Last Name" value="" />
-                </div>
-                <div class="form-group">
-                  <input v-model="email" type="email" class="form-control" placeholder="Email" value="" />
-                </div>
-                <div class="form-group">
-                  <input v-model="phone" type="text" maxlength="10" minlength="10" class="form-control" placeholder="Phone" value="" />
-                </div>
-                <div class="form-group">
-                  <label for="birthdate">Birthdate</label>
-                  <input type="date" id="birthdate" v-model="birthdate" placeholder="birthdate" class="form-control">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input v-model="password" type="password" class="form-control" placeholder="Password" value="" />
-                </div>
-                <div class="form-group">
-                  <input v-model="confirmation" type="password" class="form-control" placeholder="Confirm Password" value="" />
-                </div>
-                <div class="form-group">
-                  <input type="text" v-model="job_title" class="form-control" placeholder="Job title" />
-                </div>
-                <div class="form-group form-file-upload is-empty is-fileinput">
-                  <input type="file" id="inputFile1">
-                  <div class="input-group">
-                    <input type="text" readonly="" class="form-control" placeholder="CIN image...">
+                  <div class="form-group">
+                    <input v-model="firstName" type="text" class="form-control" placeholder="First Name" value="" />
                   </div>
-                  <span class="material-input"></span>
+                  <div class="form-group">
+                    <input v-model="lastName" type="text" class="form-control" placeholder="Last Name" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="email" type="email" class="form-control" placeholder="Email" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="phone" type="text" maxlength="10" minlength="10" class="form-control" placeholder="Phone" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="birthdate" v-model="birthdate" placeholder="Birthdate (YYYY-MM-DD)" class="form-control">
+                  </div>
                 </div>
-                <input type="button" @click="registerProfessional" class="btnRegister align-self-center justify-content-center" value="Register"/>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input v-model="password" type="password" class="form-control" placeholder="Password" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input v-model="confirmation" type="password" class="form-control" placeholder="Confirm Password" value="" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" v-model="job_title" class="form-control" placeholder="Job title" />
+                  </div>
+                  <div class="form-group form-file-upload is-empty is-fileinput">
+                    <input type="file" class="form-control" ref="file-input" accept="image/*" @change="uploadAttachement($event)" id="inputFile1">
+                    <div class="input-group">
+                      <input type="text"  class="form-control" placeholder="CIN image...">
+                    </div>
+                    <span class="material-input"></span>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="city" v-model="city" placeholder="City" class="form-control">
+                  </div>
+                  <input type="button" @click="registerProfessional" class="btnRegister align-self-center justify-content-center" value="Register"/>
+                </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Header from './components/header';
+import Footer from './components/footer';
 export default {
+  components:
+  {
+    'Header' : Header,
+    'Footer' : Footer
+  },
   data() {
     return {
       firstName: null,
@@ -131,7 +156,7 @@ export default {
       birthdate: null,
       job_title: null,
       image_cin: null,
-      image: null
+      image: 'https://i.ibb.co/QnnZBgP/placeholder.jpg'
     }
   },
   methods: {
@@ -149,18 +174,8 @@ export default {
             confirmation: this.confirmation,
             type: 'client'
 
-          }).then(function(response){
+          }).then(function(){ this.success = true; }).catch(function(){ this.error = true });
 
-            if(response.data)
-            {
-              alert('Success! your account has been created successfuly!');
-            }
-            else
-            {
-              alert('Problem creating your account! please try again later');
-            }
-
-          });
         }else
         {
           alert('Please fill all the required fields!');
@@ -177,14 +192,16 @@ export default {
             email: this.email,
             phone: this.phone,
             password: this.password,
+            birthdate: this.birthdate,
+            job_title: this.job_title,
             confirmation: this.confirmation,
-            type: 'professional'
+            type: 'professional',
+            image: this.image,
+            image_cin: this.image_cin
 
           }).then(function(response){
-
-            alert(response.data);
-
-          });
+            this.success = true;
+          }).catch(error => this.error = true);
         }
         else
         {
@@ -208,12 +225,46 @@ export default {
       document.getElementById("home").classList.remove("active");
       document.getElementById("home-tab").classList.remove("active");
       document.getElementById("home-tab").classList.remove("active-tab");
+    },
+    uploadImage(event) {
+
+      this.$http.get('http://127.0.0.1/pfe_backend/public/sanctum/csrf-cookie', {}, {headers: {
+          'Accept' : 'application/json'
+        }})
+        .then(response => {
+          let data = new FormData();
+          data.append('name', 'image');
+          data.append('image', event.target.files[0]);
+
+          this.$http.post('http://127.0.0.1/pfe_backend/public/api/upload/image', data, {headers:{
+              'Content-Type': 'image/png'
+          }}).then(response => this.image = 'http://127.0.0.1/pfe_backend/public/storage/images/' + response.data);
+      })
+    },
+    uploadAttachement(event)
+    {
+      this.$http.get('http://127.0.0.1/pfe_backend/public/sanctum/csrf-cookie', {}, {headers: {
+          'Accept' : 'application/json'
+        }})
+        .then(response => {
+          let data = new FormData();
+          data.append('name', 'image');
+          data.append('image', event.target.files[0]);
+
+          this.$http.post('http://127.0.0.1/pfe_backend/public/api/upload/image', data, {headers:{
+              'Content-Type': 'image/png'
+            }}).then(response => this.image_cin = 'http://127.0.0.1/pfe_backend/public/storage/images/' + response.data);
+        })
     }
   }
 }
 </script>
 
 <style scoped>
+  #main_container
+  {
+    margin-top: 80px;
+  }
   .btn-login
   {
     color: #0062cc !important;

@@ -28,6 +28,22 @@ const router = new VueRouter({
   mode: 'history',
 });
 
+// Check if the user has the right to view pages
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (App.token != null) {
+      next()
+      return
+    }else
+    {
+      next('/login')
+    }
+
+  } else {
+    next()
+  }
+})
+
 // Creating main component
 new Vue({
   el: '#app',

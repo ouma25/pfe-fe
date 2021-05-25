@@ -11,12 +11,14 @@
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="index.html">Home</a></li>
+          <li class="active"><a href="#">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#team">Team</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li v-if="token"><router-link to="/profile">Profile</router-link></li>
+          <li v-else=""><router-link to="/login">Login</router-link></li>
 
         </ul>
       </nav><!-- .nav-menu -->
@@ -26,8 +28,13 @@
 </template>
 
 <script>
+import App from '../App';
 export default {
-
+  data(){
+    return{
+      token: App.token
+    }
+  }
 }
 </script>
 
