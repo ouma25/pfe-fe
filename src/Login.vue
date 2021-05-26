@@ -18,6 +18,7 @@
     <div>
       <router-link class="btn btn-register btn-white" to="/register">Register</router-link>
     </div>
+    <router-link class="align-self-center" to="/forgot_password">Forgot password</router-link>
   </div>
 </template>
 

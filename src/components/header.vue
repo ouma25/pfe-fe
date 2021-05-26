@@ -16,11 +16,10 @@
           <li><a href="#features">Features</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#team">Team</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><router-link to="/contact">Contact</router-link></li>
           <li v-if="token"><router-link to="/profile">Profile</router-link></li>
           <li v-if="token"><a href="" @click="logout">Logout</a></li>
           <li v-else=""><router-link to="/login">Login</router-link></li>
-
         </ul>
       </nav><!-- .nav-menu -->
 
