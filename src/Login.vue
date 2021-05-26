@@ -1,14 +1,15 @@
 <template>
   <div class="container mt-5">
     <h3 class="mb-4 align-self-center text-center">Login</h3>
-    <p v-if="error" class="alert alert-danger">Invalid credentials!</p>
     <div class="form-group">
       <label for="email">E-mail</label>
-      <input v-model:value="email" class="form-control" id="email" type="email" />
+      <input v-model:value="formData.email" class="form-control" id="email" type="email" />
+      <p class="text-danger" v-if="errors.email">{{ errors.email[0] }}</p>
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input v-model:value="password" type="password" id="password" class="form-control">
+      <input v-model:value="formData.password" type="password" id="password" class="form-control">
+      <p class="text-danger" v-if="errors.password">{{ errors.password[0] }}</p>
     </div>
     <div class="form-group">
       <button @click="login" class="form-control btn-login btn btn-primary">Log In</button>
@@ -21,44 +22,33 @@
 </template>
 
 <script>
-
-  import App from './App';
-
   export default {
-    data: function()
+    data()
     {
       return {
-        email: null,
-        password: null,
-        logged: false,
-        token: null,
-        error: false
+        formData:{
+          email: null,
+          password: null,
+          device_name: 'browser'
+        },
+        errors:{
+          email: [],
+          password: []
+        }
       }
     },
     methods: {
       login()
       {
-        if(this.email != null && this.password != null)
-        {
-          this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/login', {email: this.email, password: this.password})
-            .then(function(response){
-              if(response)
-              {
-                App.token = response.data;
-                this.$router.push('dashboard');
-              }
-            }).catch(function(){ this.error = true });
-        }
-        else
-        {
-          alert('Please fill all the required fields first!');
-        }
+        this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/login', this.formData, {headers:{ 'accept':'Application/json' }})
+            .then((response) => { localStorage.token = response.data; this.$router.push({ path: '/dashboard' }) })
+            .catch((error) => { this.errors = error.data.errors })
       }
     },
     mounted() {
-      if(App.token)
+      if(localStorage.token)
       {
-        this.$router.push('dashboard');
+        this.$router.push({ path: '/dashboard' })
       }
     }
   }

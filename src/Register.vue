@@ -241,8 +241,7 @@ export default {
           }}).then(response => this.image = 'http://127.0.0.1/pfe_backend/public/storage/images/' + response.data);
       })
     },
-    uploadAttachement(event)
-    {
+    uploadAttachement(event) {
       this.$http.get('http://127.0.0.1/pfe_backend/public/sanctum/csrf-cookie', {}, {headers: {
           'Accept' : 'application/json'
         }})
@@ -255,6 +254,12 @@ export default {
               'Content-Type': 'image/png'
             }}).then(response => this.image_cin = 'http://127.0.0.1/pfe_backend/public/storage/images/' + response.data);
         })
+    },
+  },
+  mounted() {
+    if(localStorage.token)
+    {
+      this.$router.push({ path: '/dashboard' })
     }
   }
 }

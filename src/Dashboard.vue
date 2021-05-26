@@ -46,6 +46,10 @@ export default {
     'Card': Card
   },
   mounted() {
+    if(!localStorage.token)
+    {
+      this.$router.push({ path: '/login' })
+    }
     this.get_data();
   }
 }

@@ -18,6 +18,7 @@
           <li><a href="#team">Team</a></li>
           <li><a href="#contact">Contact</a></li>
           <li v-if="token"><router-link to="/profile">Profile</router-link></li>
+          <li v-if="token"><a href="" @click="logout">Logout</a></li>
           <li v-else=""><router-link to="/login">Login</router-link></li>
 
         </ul>
@@ -28,11 +29,16 @@
 </template>
 
 <script>
-import App from '../App';
 export default {
   data(){
     return{
-      token: App.token
+      token: localStorage.token
+    }
+  },
+  methods:{
+    logout(){
+      localStorage.removeItem('token')
+      this.$router.push({ path: '/login' })
     }
   }
 }
