@@ -6,10 +6,13 @@ import Register from './Register'
 import VueRouter from "vue-router"
 import Routes from "./Routes";
 import Card from './components/card';
-
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
 
 // Using libraries
 Vue.use(BootstrapVue)
