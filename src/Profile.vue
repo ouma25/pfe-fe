@@ -25,7 +25,7 @@
                     <p class="text-secondary mb-1">{{ job_title }}</p>
                     <p class="text-muted font-size-sm">{{ city }}</p>
                     <button class="btn btn-primary">Follow</button>
-                    <button class="btn btn-outline-primary">Contact</button>
+                    <router-link to="/user/conversation" v-bind:id="id" class="btn btn-outline-primary">Contact</router-link>
                   </div>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export default {
   methods: {
     show_data()
     {
-      this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/details/' + this.$route.params.id)
+          this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/details/' + this.$route.params.id)
           .then(function(response){
             this.id = response.data.id;
             this.first_name = response.data.first_name;

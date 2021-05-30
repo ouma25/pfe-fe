@@ -50,7 +50,7 @@
             </li>
             <li class="sidebar-dropdown">
               <router-link to="/admin/clients">
-                <i class="far fa-user-ninja"></i>
+                <i class="far fa-user"></i>
                 <span class="menu-text">Clients</span>
               </router-link>
             </li>
