@@ -42,7 +42,15 @@
       login()
       {
         this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/login', this.formData, {headers:{ 'accept':'Application/json' }})
-            .then((response) => { localStorage.token = response.data; this.$router.push({ path: '/dashboard' }) })
+            .then((response) => {
+              localStorage.token = response.data
+              this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/details?email=' + this.formData.email, {}, {headers:{ 'accept':'Application/json' }})
+                .then((response) => {
+                  localStorage.id = response.data.id
+                  localStorage.email = response.data.email
+                })
+              this.$router.push({ path: '/dashboard' })
+            })
             .catch((error) => { this.errors = error.data.errors })
       }
     },

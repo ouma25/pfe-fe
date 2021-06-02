@@ -98,6 +98,9 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <Comment :professional="professional"></Comment>
+        </div>
       </div>
     </div>
     <Footer></Footer>
@@ -108,11 +111,13 @@
 
 import Header from './components/header';
 import Footer from './components/footer';
+import Comment from './components/comment';
 
 export default {
   components: {
     'Header': Header,
-    'Footer': Footer
+    'Footer': Footer,
+    'Comment': Comment
   },
   data(){
     return{
@@ -123,26 +128,30 @@ export default {
       phone: null,
       city: null,
       job_title: null,
-      image: null
+      image: null,
+      professional: null
     }
   },
   methods: {
     show_data()
     {
-          this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/details/' + this.$route.params.id)
-          .then(function(response){
-            this.id = response.data.id;
-            this.first_name = response.data.first_name;
-            this.last_name = response.data.last_name;
-            this.email = response.data.email;
-            this.phone = response.data.phone;
-            this.city = response.data.city;
-            this.job_title = response.data.job_title;
-            this.image = response.data.image;
-          });
+        this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/details/' + this.$route.params.id)
+        .then(function(response){
+          this.id = response.data.id;
+          localStorage.receiver = response.data.id;
+          localStorage.receiverName = response.data.first_name + " " + response.data.last_name;
+          this.first_name = response.data.first_name;
+          this.last_name = response.data.last_name;
+          this.email = response.data.email;
+          this.phone = response.data.phone;
+          this.city = response.data.city;
+          this.job_title = response.data.job_title;
+          this.image = response.data.image;
+          this.professional = response.data.id;
+        });
     }
   },
-  mounted() {
+  beforeMount() {
     this.show_data();
   }
 }

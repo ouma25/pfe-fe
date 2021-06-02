@@ -5,20 +5,20 @@
       <div class="col-md-12 mt-5">
         <div class="card card-bordered">
           <div class="card-header">
-            <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
+            <h4 class="card-title"><strong>Chatting with : {{ receiverName }}</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
           </div>
           <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
 
             <div v-for="message in messages">
-              <div v-if="message.sender == localStorage.id" class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+              <div v-if="message.sender == sender" class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
                 <div class="media-body">
-                  <p>{{ message.message }}</p>
+                  <p>{{ message.content }}</p>
                   <p class="meta"><time datetime="2021">{{ message.created_at }}</time></p>
                 </div>
               </div>
-              <div v-else="" class="media media-chat media-chat-reverse">
+              <div v-if="message.sender == receiver" class="media media-chat media-chat-reverse">
                 <div class="media-body">
-                  <p>{{ message.message }}</p>
+                  <p>{{ message.content }}</p>
                   <p class="meta"><time datetime="2020">{{ message.created_at }}</time></p>
                 </div>
               </div>
@@ -49,28 +49,37 @@ export default {
   },
   data(){
     return{
-      receiver: null,
       messages: [],
       content: null,
       success: false,
-      error: false
+      error: false,
+      sender: null,
+      receiver: null,
+      receiverName: null
     }
   },
   methods: {
+    fillData(){
+      this.sender = localStorage.id
+      this.receiver = localStorage.receiver
+    },
     getData(){
-      this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/conversation/list', { sender: localStorage.id, receiver: this.$route.params.id }, {headers:{ 'accept': 'Application/json' }})
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/conversation/list', { sender: this.sender, receiver: this.receiver }, { headers:{ 'accept': 'Application/json' } })
       .then((response) => {
         this.messages = response.data
-        this.receiver = this.$route.params.id
-        console.log(this.$route.params.id)
+        this.receiverName = localStorage.receiverName
       })
       .catch(() => {
         this.error = true
       })
     },
     sendMessage(){
-      this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/conversation/send', { sender: localStorage.id, receiver: this.$route.params.id, content: this.content })
-      .then(() => { this.success = true })
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/conversation/add', { sender: this.sender, receiver: this.receiver, message: this.content })
+      .then(() => {
+        this.success = true
+        this.getData()
+        this.content = null
+      })
       .catch(() => {
         this.error = true
       })
@@ -78,6 +87,9 @@ export default {
   },
   mounted() {
     this.getData()
+  },
+  beforeMount() {
+    this.fillData()
   }
 }
 </script>
