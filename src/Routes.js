@@ -12,6 +12,7 @@ import Admin_clients from "./admin/Clients";
 import Admin_services from "./admin/Services";
 import Admin_comments from "./admin/Comments";
 import Conversation from "./Conversation";
+import Client from "./Clients";
 
 export default [
   { path: '/', component: Index },
@@ -27,5 +28,6 @@ export default [
   { name: 'admin_clients', path: '/admin/clients', component: Admin_clients },
   { name: 'admin_services', path: '/admin/services', component: Admin_services },
   { name: 'admin_comments', path: '/admin/comments', component: Admin_comments },
-  { name: 'conversation', path: '/user/conversation', component: Conversation }
+  { name: 'conversation', path: '/user/conversation', component: Conversation },
+  { name: 'clients', path: '/user/clients', component: Client }
 ]

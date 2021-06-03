@@ -12,12 +12,12 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="#">Home</a></li>
+          <li><router-link to="/dashboard">Professionals</router-link></li>
+          <li><router-link to="/user/clients">Clients</router-link></li>
+          <li><router-link to="/services">Services</router-link></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#team">Team</a></li>
           <li><router-link to="/contact">Contact</router-link></li>
-          <li v-if="token"><router-link to="/profile">Profile</router-link></li>
+          <li v-if="token"><router-link v-bind:to="'/profile' + id">Profile</router-link></li>
           <li v-if="token"><a href="" @click="logout">Logout</a></li>
           <li v-else=""><router-link to="/login">Login</router-link></li>
         </ul>
@@ -31,7 +31,8 @@
 export default {
   data(){
     return{
-      token: localStorage.token
+      token: localStorage.token,
+      id: localStorage.id
     }
   },
   methods:{
@@ -132,12 +133,12 @@ export default {
   transition: all 0.3s ease-in-out 0s;
 }
 
-.nav-menu a:hover:before, .nav-menu li:hover > a:before, .nav-menu .active > a:before {
+.nav-menu a:hover:before, .nav-menu li:hover > a:before, .nav-menu .router-link-active > a:before {
   visibility: visible;
   width: 25px;
 }
 
-.nav-menu a:hover, .nav-menu .active > a, .nav-menu li:hover > a {
+.nav-menu a:hover, .nav-menu .router-link-active > a, .nav-menu li:hover > a {
   color: #fff;
   text-decoration: none;
 }

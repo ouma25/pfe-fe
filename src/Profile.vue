@@ -19,13 +19,14 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <img v-bind:src="image" alt="Admin" class="rounded-circle" width="150">
+                  <img v-if="image" v-bind:src="image" alt="Admin" class="rounded-circle" width="150">
+                  <img v-else src="../src/assets/img/cliente.svg" alt="Admin" class="rounded-circle" width="150">
                   <div class="mt-3">
                     <h4>{{ first_name }} {{ last_name }}</h4>
                     <p class="text-secondary mb-1">{{ job_title }}</p>
                     <p class="text-muted font-size-sm">{{ city }}</p>
-                    <button class="btn btn-primary">Follow</button>
-                    <router-link to="/user/conversation" v-bind:id="id" class="btn btn-outline-primary">Contact</router-link>
+                    <button class="btn btn-primary" v-if="isme == false">Follow</button>
+                    <router-link v-if="isme == false" to="/user/conversation" v-bind:id="id" class="btn btn-outline-primary">Contact</router-link>
                   </div>
                 </div>
               </div>
@@ -153,6 +154,18 @@ export default {
   },
   beforeMount() {
     this.show_data();
+  },
+  computed:{
+    isme(){
+      if( localStorage.id == this.id )
+      {
+        return true
+      }
+      else
+      {
+        return false
+      }
+    }
   }
 }
 </script>
