@@ -28,6 +28,10 @@
                     <button class="btn btn-primary" v-if="isme == false">Follow</button>
                     <router-link v-if="isme == false" to="/user/conversation" v-bind:id="id" class="btn btn-outline-primary">Contact</router-link>
                   </div>
+                  <div class="mt-3">
+                    <div class="rating"> <input type="radio" name="rating" value="1" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,10 +101,21 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-12 ">
+              <Comment v-for="comment in comments"  :full_name="comment.full_name" :text="comment.text" :created_at="comment.created_at"></Comment>
+            </div>
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  Add a new comment :
+                </div>
+                <div class="card-body">
+                  <textarea v-model="mycomment" class="form-control" placeholder="Please type something here ..." cols="30" rows="5"></textarea>
+                  <input @click="create_comment" type="button" class="btn btn-primary float-right" value="Comment">
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <Comment :professional="professional"></Comment>
         </div>
       </div>
     </div>
@@ -130,7 +145,9 @@ export default {
       city: null,
       job_title: null,
       image: null,
-      professional: null
+      professional: null,
+      comments: [],
+      mycomment: null
     }
   },
   methods: {
@@ -150,10 +167,30 @@ export default {
           this.image = response.data.image;
           this.professional = response.data.id;
         });
+    },
+    get_comments()
+    {
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/comments/list', { professional: this.$route.params.id }, {headers:{ 'accept':'application/json' }})
+      .then((response) => {
+        this.comments = response.data
+      })
+      .catch((error) => { console.log(error) })
+    },
+    create_comment()
+    {
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/comments/add', { user: localStorage.id, professional: this.$route.params.id, text: this.mycomment })
+      .then(() => {
+        this.get_comments()
+        this.mycomment = null;
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     }
   },
   beforeMount() {
-    this.show_data();
+    this.show_data()
+    this.get_comments()
   },
   computed:{
     isme(){
@@ -227,5 +264,64 @@ body{
 }
 .shadow-none {
   box-shadow: none!important;
+}
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center
+}
+
+.rating>input {
+  display: none
+}
+
+.rating>label {
+  position: relative;
+  width: 1em;
+  font-size: 3vw;
+  color: #FFD600;
+  cursor: pointer
+}
+
+.rating>label::before {
+  content: "\2605";
+  position: absolute;
+  opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+  opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+  opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+  opacity: 0.4
+}
+
+h1,
+p {
+  text-align: center
+}
+
+h1 {
+  margin-top: 150px
+}
+
+p {
+  font-size: 1.2rem
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 14px
+  }
+
+  p {
+    font-size: 12px
+  }
 }
 </style>

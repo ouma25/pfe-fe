@@ -7,8 +7,20 @@
         <h4>Filter by</h4>
       <br>
       <div class="row">
-        <div class="col-md-3">
-
+        <div class="col-md-2 mr-4">
+          <label for="City">City</label>
+          <select class="form-control" v-model="filter_city" id="City">
+            <option value="All" selected>All</option>
+            <option value="Casablanca">Casablanca</option>
+            <option value="Berrechid">Berrechid</option>
+            <option value="Tangier">Tangier</option>
+            <option value="Rabat">Rabat</option>
+            <option value="El jadida">El jadida</option>
+          </select>
+          <label for="Service">Service</label>
+          <select v-model="filter_service" id="Service" class="form-control">
+            <option v-for="service in services" :value="service.id">{{ service.name }}</option>
+          </select>
         </div>
         <div class="col-md-9">
           <div class="row">
@@ -33,11 +45,21 @@ export default {
       this.$http.get('http://127.0.0.1/pfe_backend/public/api/user/professionals/list').then(function(response){
         this.data = response.data;
       });
+    },
+    get_services(){
+      this.$http.get('http://127.0.0.1/pfe_backend/public/api/services/list').
+        then((response) => {
+          this.services = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     }
   },
   data(){
     return {
-      data: []
+      data: [],
+      services: []
     }
   },
   components: {
@@ -50,7 +72,8 @@ export default {
     {
       this.$router.push({ path: '/login' })
     }
-    this.get_data();
+    this.get_data()
+    this.get_services()
   }
 }
 
