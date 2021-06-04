@@ -41,6 +41,11 @@
                   <div class="form-group">
                     <input v-model="city" type="text" class="form-control" placeholder="City" value="" />
                   </div>
+                  <div class="form-group">
+                    <select v-model="service" class="form-control">
+
+                    </select>
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
@@ -119,6 +124,12 @@
                   <div class="form-group">
                     <input type="text" id="city" v-model="city" placeholder="City" class="form-control">
                   </div>
+                  <div class="form-group">
+                    <select v-model="service" class="form-control">
+                      <option value="" selected disabled>Select a service ...</option>
+                      <option id="service" v-for="item in services" :value="item.id">{{ item.name }}</option>
+                    </select>
+                  </div>
                   <input type="button" @click="registerProfessional" class="btnRegister align-self-center justify-content-center" value="Register"/>
                 </div>
               </div>
@@ -156,7 +167,9 @@ export default {
       birthdate: null,
       job_title: null,
       image_cin: null,
-      image: 'https://i.ibb.co/QnnZBgP/placeholder.jpg'
+      service: null,
+      image: 'https://i.ibb.co/QnnZBgP/placeholder.jpg',
+      services: []
     }
   },
   methods: {
@@ -197,7 +210,8 @@ export default {
             confirmation: this.confirmation,
             type: 'professional',
             image: this.image,
-            image_cin: this.image_cin
+            image_cin: this.image_cin,
+            service: this.service
 
           }).then(function(response){
             this.success = true;
@@ -255,12 +269,22 @@ export default {
             }}).then(response => this.image_cin = 'http://127.0.0.1/pfe_backend/public/storage/images/' + response.data);
         })
     },
+    get_services(){
+      this.$http.get('http://127.0.0.1/pfe_backend/public/api/services/list').
+      then((response) => {
+        this.services = response.data
+      })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   },
   mounted() {
     if(localStorage.token)
     {
       this.$router.push({ path: '/dashboard' })
     }
+    this.get_services()
   }
 }
 </script>
