@@ -41,11 +41,6 @@
                   <div class="form-group">
                     <input v-model="city" type="text" class="form-control" placeholder="City" value="" />
                   </div>
-                  <div class="form-group">
-                    <select v-model="service" class="form-control">
-
-                    </select>
-                  </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">

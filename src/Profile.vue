@@ -29,7 +29,40 @@
                     <router-link v-if="isme == false" to="/user/conversation" v-bind:id="id" class="btn btn-outline-primary">Contact</router-link>
                   </div>
                   <div class="mt-3">
-                    <div class="rating"> <input type="radio" name="rating" value="1" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                    <div class="rating" v-if="rating == 5">
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                    </div>
+                    <div class="rating" v-if="rating == 4">
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                    </div>
+                    <div class="rating" v-if="rating == 3">
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                    </div>
+                    <div class="rating" v-if="rating == 2">
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star text-danger"></span>
+                      <span class="fa fa-star text-danger"></span>
+                    </div>
+                    <div class="rating" v-if="rating == 1">
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star text-danger"></span>
                     </div>
                   </div>
                 </div>
@@ -102,7 +135,13 @@
               </div>
             </div>
             <div class="col-md-12 ">
-              <Comment v-for="comment in comments"  :full_name="comment.full_name" :text="comment.text" :created_at="comment.created_at"></Comment>
+              <Comment v-for="comment in comments"
+                       :commenter="comment.commenter"
+                       :image="comment.image"
+                       :full_name="comment.full_name"
+                       :text="comment.text"
+                       :comment_id="comment.comment_id"
+                       :created_at="comment.created_at"></Comment>
             </div>
             <div class="col-md-12">
               <div class="card">
@@ -147,7 +186,10 @@ export default {
       image: null,
       professional: null,
       comments: [],
-      mycomment: null
+      mycomment: null,
+      stars: null,
+      rating: null,
+      logged_user: localStorage.id
     }
   },
   methods: {
@@ -186,11 +228,23 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+    },
+    rate()
+    {
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/evaluation/update', {user: localStorage.id, professional: this.id, stars_number: this.stars})
+    },
+    get_rating()
+    {
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/evaluation/get', { professional: localStorage.receiver })
+        .then((response) => {
+          this.rating = response.data
+        })
     }
   },
   beforeMount() {
     this.show_data()
     this.get_comments()
+    this.get_rating()
   },
   computed:{
     isme(){
@@ -323,5 +377,9 @@ p {
   p {
     font-size: 12px
   }
+}
+.fa-star:hover
+{
+  color: red;
 }
 </style>

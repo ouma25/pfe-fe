@@ -9,8 +9,8 @@
       <div class="row">
         <div class="col-md-2 mr-4">
           <label for="City">City</label>
-          <select class="form-control" v-model="filter_city" id="City">
-            <option value="All" selected>All</option>
+          <select class="form-control" @change="fn_filter_city" v-model="filter_city" id="City">
+            <option value="" selected>All</option>
             <option value="Casablanca">Casablanca</option>
             <option value="Berrechid">Berrechid</option>
             <option value="Tangier">Tangier</option>
@@ -18,7 +18,8 @@
             <option value="El jadida">El jadida</option>
           </select>
           <label for="Service">Service</label>
-          <select v-model="filter_service" id="Service" class="form-control">
+          <select @change="fn_filter_service" v-model="filter_service" id="Service" class="form-control">
+            <option value="" selected>All</option>
             <option v-for="service in services" :value="service.id">{{ service.name }}</option>
           </select>
         </div>
@@ -54,12 +55,26 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+    },
+    fn_filter_city(){
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/professionals/filter', {city: this.filter_city}).then(function(response){
+        this.data = response.data;
+      })
+      .catch((error) => console.log(error))
+    },
+    fn_filter_service(){
+      this.$http.post('http://127.0.0.1/pfe_backend/public/api/user/professionals/filter', {service: this.filter_service}).then(function(response){
+        this.data = response.data;
+      })
+      .catch((error) => console.log(error))
     }
   },
   data(){
     return {
       data: [],
-      services: []
+      services: [],
+      filter_service: "",
+      filter_city: ""
     }
   },
   components: {

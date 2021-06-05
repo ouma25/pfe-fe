@@ -34,7 +34,7 @@ const router = new VueRouter({
 // Check if the user has the right to view pages
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (App.token != null) {
+    if (localStorage.token != null) {
       next()
       return
     }else
@@ -42,7 +42,18 @@ router.beforeEach((to, from, next) => {
       next('/login')
     }
 
-  } else {
+  } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if(localStorage.id == 1)
+    {
+      next()
+      return
+    }
+    else
+    {
+      next('/login')
+    }
+  }else
+  {
     next()
   }
 })
