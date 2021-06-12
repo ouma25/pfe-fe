@@ -9,7 +9,7 @@
           </div>
           <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
 
-            <div v-for="message in messages">
+            <div v-for="(message,index) in messages" :key="index">
               <div v-if="message.sender == sender" class="media media-chat">
                 <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
                 <div class="media-body align-content-start">
